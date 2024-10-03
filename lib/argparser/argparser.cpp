@@ -72,7 +72,7 @@ class ArgParser {
                 // a positional argument or value
                 } else {
                     // valid positional argument
-                    if (shortFlags.empty() && longFlags.empty()) {
+                    if (shortFlags.empty() && longFlags.empty() && currFlag.empty()) {
                         positional.push_back(stringArg);
 
                     // no flags were encountered before this
