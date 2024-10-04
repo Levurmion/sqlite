@@ -1,23 +1,21 @@
-.PHONY: all
+include common.mk
 
-CXX := g++
-CXXFLAGS := -Wall -std=c++17
+GEN_OBJECT := $(CMD) -c $^ -o $@
+OBJECTS := $(OBJ)/main.o $(OBJ)/argparser.o $(OBJ)/strings.o
 
-CMD := $(CXX) $(CXXFLAGS)
+main: $(OBJECTS)
+	$(CMD) $^ -o $(BIN)/$@
 
-# directories
-OBJ := ./objects
-SRC := ./src
-BIN := ./bin
+$(OBJ)/main.o: $(SRC)/main.cpp
+	$(CMD) -c $^ -o $@
 
-all: main.o argparser.o strings.o
-	$(CMD) $(OBJ)/main.o $(OBJ)/argparser.o $(OBJ)/strings.o -o $(BIN)/sqlite-cpp
+$(OBJ)/argparser.o: $(LIB)/argparser/argparser.cpp
+	$(CMD) -c $^ -o $@
 
-main.o:
-	$(CMD) -c $(SRC)/main.cpp -o $(OBJ)/main.o
+$(OBJ)/strings.o: $(LIB)/utils/strings.cpp
+	$(CMD) -c $^ -o $@
 
-argparser.o:
-	$(CMD) -c $(SRC)/argparser/argparser.cpp -o $(OBJ)/argparser.o
 
-strings.o:
-	$(CMD) -c $(SRC)/utils/strings.cpp -o $(OBJ)/strings.o
+# $^: Expands to all the prerequisites (i.e., ./obj/argparser.o ./obj/main.o).
+# $@: The current target (e.g., ./obj/main.o).
+# $<: The first prerequisite (e.g., main.cpp or argparser.cpp).

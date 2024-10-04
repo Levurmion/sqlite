@@ -1,5 +1,7 @@
-#include <iostream>
+#ifndef STRINGS_UTIL
+#define STRINGS_UTIL
 
+#include <iostream>
 
 inline bool startsWith (std::string string, std::string prefix) {
     if (prefix.length() > string.length()) {
@@ -26,3 +28,5 @@ inline bool endsWith (std::string string, std::string suffix) {
     }
     return true;
 }
+
+#endif

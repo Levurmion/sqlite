@@ -2,7 +2,6 @@
 #include <stdexcept>
 #include "../utils/strings.cpp"
 
-
 enum class FlagType {
     SHORT,
     LONG,
