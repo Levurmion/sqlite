@@ -1,9 +1,7 @@
-#ifndef STRINGS_UTIL
-#define STRINGS_UTIL
-
+#include "strings.hpp"
 #include <iostream>
 
-inline bool startsWith (std::string string, std::string prefix) {
+bool startsWith (std::string string, std::string prefix) {
     if (prefix.length() > string.length()) {
         return false;
     }
@@ -15,7 +13,7 @@ inline bool startsWith (std::string string, std::string prefix) {
     return true;
 };
 
-inline bool endsWith (std::string string, std::string suffix) {
+bool endsWith (std::string string, std::string suffix) {
     if (suffix.length() > string.length()) {
         return false;
     }
@@ -27,6 +25,4 @@ inline bool endsWith (std::string string, std::string suffix) {
         }
     }
     return true;
-}
-
-#endif
+};
