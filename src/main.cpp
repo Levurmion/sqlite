@@ -4,6 +4,8 @@
 #include "../lib/argparser/argparser.cpp"
 #include "../lib/utils/strings.cpp"
 
+using namespace std;
+
 int main (int argc, char* argv[]) {
 
     if (argc == 1) {
@@ -12,6 +14,12 @@ int main (int argc, char* argv[]) {
     }
 
     ArgParser arguments = ArgParser(argc, argv);
+
+    for (string arg : arguments.positional) {
+        std::cout << arg << " ";
+    }
+    std::cout << std::endl;
+
 
     return 0;
 }   

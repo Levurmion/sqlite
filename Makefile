@@ -1,7 +1,14 @@
 include common.mk
 
+.PHONY: all clean
+
 GEN_OBJECT := $(CMD) -c $^ -o $@
 OBJECTS := $(OBJ)/main.o $(OBJ)/argparser.o $(OBJ)/strings.o
+
+all: $(OBJECTS)
+
+clean:
+	rm -f $(OBJ)/*.o
 
 main: $(OBJECTS)
 	$(CMD) $^ -o $(BIN)/$@
