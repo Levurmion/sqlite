@@ -1,8 +1,8 @@
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
-#include "../lib/argparser/argparser.cpp"
-#include "../lib/utils/strings.cpp"
+#include "lib/argparser/argparser.cpp"
+#include "lib/utils/strings.cpp"
 
 using namespace std;
 
@@ -15,8 +15,22 @@ int main (int argc, char* argv[]) {
 
     ArgParser arguments = ArgParser(argc, argv);
 
-    for (string arg : arguments.positional) {
-        std::cout << arg << " ";
+    std::cout << "Positional Arguments: " << std::endl;
+    for (std::string positionalArg : arguments.positional) {
+        std::cout << positionalArg << " ";
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    std::cout << "Short Flags: " << std::endl;
+    for (const auto& [key, value] : arguments.shortFlags) {
+        std::cout << key << ": " << value << std::endl;
+    }
+    std::cout << std::endl;
+
+    std::cout << "Long Flags: " << std::endl;
+    for (const auto& [key, value] : arguments.longFlags) {
+        std::cout << key << ": " << value << std::endl;
     }
     std::cout << std::endl;
 
