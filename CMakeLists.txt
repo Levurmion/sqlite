@@ -17,6 +17,8 @@ set(SOURCES
     src/main.cpp
     src/lib/argparser/argparser.cpp
     src/lib/utils/strings.cpp
+    src/lib/dot-commands/dbinfo.cpp
+    src/lib/dot-commands/dot-commands.cpp
 )
 
 # Define the include directories (where the header files are)

@@ -1,10 +1,12 @@
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
+#include <optional>
 #include "lib/argparser/argparser.hpp"
 #include "lib/utils/strings.hpp"
+#include "lib/dot-commands/dot-commands.hpp"
+#include "lib/dot-commands/dbinfo.hpp"
 
-using namespace std;
 
 int main (int argc, const char* argv[]) {
 
@@ -15,24 +17,21 @@ int main (int argc, const char* argv[]) {
 
     ArgParser arguments = ArgParser(argc, argv);
 
-    std::cout << "Positional Arguments: " << std::endl;
-    for (std::string positionalArg : arguments.positional) {
-        std::cout << positionalArg << std::endl;
-    }
-    std::cout << std::endl;
+    // open db file
+    std::string databaseFilepath = arguments.shortFlags["f"];
+    std::ifstream databaseFile(databaseFilepath, std::ios::binary);
 
-    std::cout << "Short Flags: " << std::endl;
-    for (const auto& [key, value] : arguments.shortFlags) {
-        std::cout << key << ": " << value << std::endl;
+    if (!databaseFile) {
+        std::cerr << "Failed to open the database file" << std::endl;
+        return 1;
     }
-    std::cout << std::endl;
 
-    std::cout << "Long Flags: " << std::endl;
-    for (const auto& [key, value] : arguments.longFlags) {
-        std::cout << key << ": " << value << std::endl;
+    // get dot command
+    std::optional<std::string> dotCommand = getDotCommand(arguments.positional);
+
+    if (dotCommand.value() == ".dbinfo") {
+        dbinfo(databaseFile);
     }
-    std::cout << std::endl;
-
 
     return 0;
 }   
