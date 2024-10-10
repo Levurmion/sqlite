@@ -51,10 +51,11 @@ enable_testing()
 
 add_executable(
   tests
-  src/lib/argparser/tests.cpp
   src/lib/argparser/argparser.cpp
+  src/lib/argparser/argparser.tests.cpp
   src/lib/utils/strings.cpp
   src/lib/utils/numbers.cpp
+  src/lib/utils/numbers.tests.cpp
 )
 
 target_include_directories(

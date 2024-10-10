@@ -1,8 +1,16 @@
 #include "dot-commands.hpp"
-#include "../utils/numbers.hpp"
+#include "../utils/numbers.cpp"
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+
+
+inline uint64_t getCellSize(std::ifstream& databaseFile, int cellOffset) {
+    unsigned char buffer[8];
+    databaseFile.seekg(cellOffset);
+    databaseFile.read(reinterpret_cast<char*>(buffer), 8);
+    return decodeVarint(buffer, 0);
+};
 
 void tables (std::ifstream& databaseFile) {
     char uintBuffer[2];
@@ -22,7 +30,17 @@ void tables (std::ifstream& databaseFile) {
         cellOffsets[i] = bufferToUint16<unsigned char>(uintBuffer);
     }
 
-    for (u_int celloffset)
+    for (int i = 0; i < cellCount; i++) {
+        u_int currCellOffset = cellOffsets[i];
+        uint64_t cellSize = getCellSize(databaseFile, currCellOffset);
+
+        // load in the entire cell into memory
+        unsigned char* cellBuffer = new unsigned char[cellSize];
+        databaseFile.seekg(currCellOffset);
+        databaseFile.read(reinterpret_cast<char*>(cellBuffer), cellSize);
+
+        delete[] cellBuffer;
+    }
 
     delete[] cellOffsets;
-}
+};

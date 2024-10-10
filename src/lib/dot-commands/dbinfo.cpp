@@ -1,5 +1,5 @@
 #include "dot-commands.hpp"
-#include "../utils/numbers.hpp"
+#include "../utils/numbers.cpp"
 #include <iostream>
 #include <fstream>
 
