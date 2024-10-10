@@ -65,6 +65,7 @@
         "set": "cpp",
         "thread": "cpp",
         "unordered_set": "cpp",
-        "__memory": "cpp"
+        "__memory": "cpp",
+        "numbers": "cpp"
     }
 }

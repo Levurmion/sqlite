@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-enum RecordSerial {
+enum SerialType {
     SQLITE_NULL,
     INT_8,
     INT_16,
@@ -20,6 +20,18 @@ enum RecordSerial {
     STRING
 };
 
-RecordSerial determineColumnSerial(uint64_t varint);
+
+struct RecordSerial {
+    SerialType type;
+    uint size;
+
+    RecordSerial(SerialType type, uint size): type(type), size(size) {};
+};
+
+/**
+ * Given a serial code extracted from a record header, return its `SerialType`
+ * and `size` of the column in bytes.
+ */
+RecordSerial determineColumnSerial(uint64_t serial);
 
 #endif

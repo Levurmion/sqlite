@@ -5,13 +5,6 @@
 #include <stdio.h>
 
 
-inline uint64_t getCellSize(std::ifstream& databaseFile, int cellOffset) {
-    unsigned char buffer[8];
-    databaseFile.seekg(cellOffset);
-    databaseFile.read(reinterpret_cast<char*>(buffer), 8);
-    return decodeVarint(buffer, 0);
-};
-
 void tables (std::ifstream& databaseFile) {
     char uintBuffer[2];
     
@@ -32,13 +25,17 @@ void tables (std::ifstream& databaseFile) {
 
     for (int i = 0; i < cellCount; i++) {
         u_int currCellOffset = cellOffsets[i];
-        uint64_t cellSize = getCellSize(databaseFile, currCellOffset);
+        uint64_t cellSize = getVarintFromIfstream(databaseFile, currCellOffset);
 
         // load in the entire cell into memory
         unsigned char* cellBuffer = new unsigned char[cellSize];
         databaseFile.seekg(currCellOffset);
         databaseFile.read(reinterpret_cast<char*>(cellBuffer), cellSize);
 
+        // read row id
+        uint rowIdOffset = getVarintSize(cellSize);
+        uint64_t rowId = decodeVarint(cellBuffer, rowIdOffset);
+        std::cout << rowId << std::endl;
         delete[] cellBuffer;
     }
 
