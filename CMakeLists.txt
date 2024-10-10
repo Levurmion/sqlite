@@ -17,8 +17,10 @@ set(SOURCES
     src/main.cpp
     src/lib/argparser/argparser.cpp
     src/lib/utils/strings.cpp
-    src/lib/dot-commands/dbinfo.cpp
+    src/lib/utils/numbers.cpp
     src/lib/dot-commands/dot-commands.cpp
+    src/lib/dot-commands/dbinfo.cpp
+    src/lib/dot-commands/tables.cpp
 )
 
 # Define the include directories (where the header files are)
@@ -52,6 +54,7 @@ add_executable(
   src/lib/argparser/tests.cpp
   src/lib/argparser/argparser.cpp
   src/lib/utils/strings.cpp
+  src/lib/utils/numbers.cpp
 )
 
 target_include_directories(

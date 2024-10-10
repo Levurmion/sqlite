@@ -1,4 +1,5 @@
-#include "dbinfo.hpp"
+#include "dot-commands.hpp"
+#include "../utils/numbers.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -18,7 +19,7 @@ void dbinfo (std::ifstream& databaseFile) {
     // big-endian: most sig byte in buffer[0], followed by buffer[1]
     // static_cast to unsigned int will turn 0000 0001 to 0000 0000 0000 0001
     // shift left by 8 bits turns this into 0000 0001 0000 0000
-    unsigned int pageSize = (static_cast<unsigned int>(buffer[0]) << 8) | static_cast<unsigned int>(buffer[1]);
+    unsigned int pageSize = bufferToUint16<unsigned char>(buffer);
 
     std::cout << "database page size:" << "\t" << pageSize << std::endl;
 
@@ -26,11 +27,10 @@ void dbinfo (std::ifstream& databaseFile) {
     // the first page includes the 100-byte databae file header so we will offset
     // this by 100. The cell count for a page is at offset 3 from the start of
     // the B-tree page.
-    databaseFile.seekg(100 + 3);
+    databaseFile.seekg(HEADER_SIZE + 3);
+    databaseFile.read(buffer, 2);
 
-    char cellCountBuffer[2];
-    databaseFile.read(cellCountBuffer, 2);
-    unsigned int cellCount = (static_cast<unsigned int>(cellCountBuffer[0]) << 8) | static_cast<unsigned int>(cellCountBuffer[1]);
+    unsigned int cellCount = bufferToUint16<unsigned char>(buffer);
 
     std::cout << "number of tables:" << "\t" << cellCount << std::endl;
 }

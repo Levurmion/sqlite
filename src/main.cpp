@@ -2,10 +2,9 @@
 #include <stdexcept>
 #include <fstream>
 #include <optional>
+#include "lib/dot-commands/dot-commands.hpp"
 #include "lib/argparser/argparser.hpp"
 #include "lib/utils/strings.hpp"
-#include "lib/dot-commands/dot-commands.hpp"
-#include "lib/dot-commands/dbinfo.hpp"
 
 
 int main (int argc, const char* argv[]) {
@@ -31,6 +30,8 @@ int main (int argc, const char* argv[]) {
 
     if (dotCommand.value() == ".dbinfo") {
         dbinfo(databaseFile);
+    } else if (dotCommand.value() == ".tables") {
+        tables(databaseFile);
     }
 
     return 0;
