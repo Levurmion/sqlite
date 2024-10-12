@@ -1,7 +1,6 @@
-#include "strings.hpp"
 #include <iostream>
 
-bool startsWith (std::string string, std::string prefix) {
+inline bool startsWith (std::string string, std::string prefix) {
     if (prefix.length() > string.length()) {
         return false;
     }
@@ -13,7 +12,7 @@ bool startsWith (std::string string, std::string prefix) {
     return true;
 };
 
-bool endsWith (std::string string, std::string suffix) {
+inline bool endsWith (std::string string, std::string suffix) {
     if (suffix.length() > string.length()) {
         return false;
     }

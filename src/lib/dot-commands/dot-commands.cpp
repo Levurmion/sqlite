@@ -1,5 +1,5 @@
 #include "dot-commands.hpp"
-#include "../utils/strings.hpp"
+#include "../utils/strings.cpp"
 
 #include <iostream>
 #include <optional>

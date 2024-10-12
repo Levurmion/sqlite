@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdexcept>
-#include "../utils/strings.hpp"
+#include "../utils/strings.cpp"
 #include "argparser.hpp"
 
 

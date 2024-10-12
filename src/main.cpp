@@ -4,7 +4,7 @@
 #include <optional>
 #include "lib/dot-commands/dot-commands.hpp"
 #include "lib/argparser/argparser.hpp"
-#include "lib/utils/strings.hpp"
+#include "lib/utils/strings.cpp"
 
 
 int main (int argc, const char* argv[]) {

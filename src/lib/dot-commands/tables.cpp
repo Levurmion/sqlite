@@ -1,5 +1,6 @@
 #include "dot-commands.hpp"
 #include "../utils/numbers.cpp"
+#include "../utils/varint.cpp"
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -25,18 +26,6 @@ void tables (std::ifstream& databaseFile) {
 
     for (int i = 0; i < cellCount; i++) {
         u_int currCellOffset = cellOffsets[i];
-        uint64_t cellSize = getVarintFromIfstream(databaseFile, currCellOffset);
-
-        // load in the entire cell into memory
-        unsigned char* cellBuffer = new unsigned char[cellSize];
-        databaseFile.seekg(currCellOffset);
-        databaseFile.read(reinterpret_cast<char*>(cellBuffer), cellSize);
-
-        // read row id
-        uint rowIdOffset = getVarintSize(cellSize);
-        uint64_t rowId = decodeVarint(cellBuffer, rowIdOffset);
-        std::cout << rowId << std::endl;
-        delete[] cellBuffer;
     }
 
     delete[] cellOffsets;
