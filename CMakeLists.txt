@@ -16,6 +16,8 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(SOURCES
     src/main.cpp
     src/lib/argparser/argparser.cpp
+    src/lib/records/record-serial.cpp
+    src/lib/records/record-header.cpp
     src/lib/utils/strings.cpp
     src/lib/utils/numbers.cpp
     src/lib/utils/bits.cpp

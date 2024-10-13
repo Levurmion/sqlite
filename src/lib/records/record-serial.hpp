@@ -1,5 +1,5 @@
-#ifndef RECORDS_SERIAL
-#define RECORDS_SERIAL
+#ifndef RECORD_SERIAL
+#define RECORD_SERIAL
 
 #include <iostream>
 
@@ -25,6 +25,7 @@ struct RecordSerial {
     SerialType type;
     uint size;
 
+    RecordSerial() {};
     RecordSerial(SerialType type, uint size): type(type), size(size) {};
 };
 

@@ -6,7 +6,9 @@
 #include "math.cpp"
 #include "bits.cpp"
 
-
+/**
+ * Represents the first 8 bytes of a `Varint`.
+ */
 struct VarintByte {
     unsigned char contBit;
     unsigned char payload;
@@ -45,20 +47,6 @@ class Varint {
     private:
         std::vector<VarintByte> varintBytes;
         unsigned char finalVarintByte = 0;
-
-        /**
-         * Computes the number of bytes required to encode a `uint64_t` as a `varint`.
-         */
-        int getVarintByteSize (uint64_t number) {
-            int leadingZeros = countLeadingZeros(number);
-            if (leadingZeros < 8) {
-                // will require the full 9 `VarintBytes`
-                return 9;
-            } else {
-                int occupiedBits = 64 - leadingZeros;
-                return ceiling(occupiedBits, 7);
-            }
-        };
     
     public:
         typedef std::vector<Varint> VarintVector;
@@ -68,7 +56,7 @@ class Varint {
         };
 
         /**
-         * Construct `Varint` from a byte buffer stream.
+         * Construct `Varint` from a byte vector.
          */
         Varint(std::vector<unsigned char>& buffer) {
             varintBytes.reserve(8);
@@ -116,6 +104,7 @@ class Varint {
             std::reverse(varintBytes.begin(), varintBytes.end());
         };
 
+        // Copy constructor
         Varint(const Varint& other) {
             varintBytes = other.varintBytes;
             finalVarintByte = other.finalVarintByte;
@@ -192,6 +181,15 @@ class Varint {
             return varintByteStream;
         }
 
+
+        /**
+         * Return the number of bytes occupied by this `Varint`.
+         */
+        int getByteCount() const noexcept {
+            return varintBytes.size();
+        }
+
+
         /**
          * Decodes a collection of static Huffman-encoded varint values from a byte buffer
          * stream.
@@ -217,4 +215,18 @@ class Varint {
                 return std::nullopt;
             }
         }
+
+        /**
+         * Computes the number of bytes required to encode a `uint64_t` as a `varint`.
+         */
+        static int getVarintByteSize (uint64_t number) {
+            int leadingZeros = countLeadingZeros(number);
+            if (leadingZeros < 8) {
+                // will require the full 9 `VarintBytes`
+                return 9;
+            } else {
+                int occupiedBits = 64 - leadingZeros;
+                return ceiling(occupiedBits, 7);
+            }
+        };
 };
