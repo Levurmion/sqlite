@@ -5,6 +5,7 @@
 #include <iomanip>
 
 RecordHeader::RecordHeader(std::ifstream& file, int offset) {
+    // set to cell offset
     file.seekg(offset);
     std::vector<u_char> buffer(9);
 

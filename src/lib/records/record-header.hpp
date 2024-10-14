@@ -18,7 +18,7 @@ class RecordHeader {
 
         /**
          * Read the header for a record from a binary file stream at a given
-         * file byte offset.
+         * cell byte offset on the page.
          */
         RecordHeader(std::ifstream& file, int offset);
 };
