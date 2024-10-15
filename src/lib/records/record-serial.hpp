@@ -2,6 +2,7 @@
 #define RECORD_SERIAL
 
 #include <iostream>
+#include <variant>
 
 enum SerialType {
     SQLITE_NULL,
@@ -19,7 +20,6 @@ enum SerialType {
     BLOB,
     STRING
 };
-
 
 struct RecordSerial {
     SerialType type;

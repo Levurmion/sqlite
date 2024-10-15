@@ -18,3 +18,17 @@ inline uint countLeadingZeros(uint64_t number) {
     }
     return zeros;
 }
+
+
+/**
+ * Concatenate some number of bytes together from a buffer byte stream.
+ */
+template<typename T>
+T concatenateBytes(std::vector<u_char>& buffer, u_int start, u_int numBytes) {
+    T value = 0;
+    for (int i = 0; i < numBytes; i++) {
+        T byte = static_cast<T>(buffer[start + i]);
+        value = (value << 8) | byte;
+    }
+    return value;
+}

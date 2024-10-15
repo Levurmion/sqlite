@@ -18,11 +18,14 @@ set(SOURCES
     src/lib/argparser/argparser.cpp
     src/lib/records/record-serial.cpp
     src/lib/records/record-header.cpp
+    src/lib/records/record-cell.cpp
     src/lib/utils/strings.cpp
     src/lib/utils/numbers.cpp
     src/lib/utils/bits.cpp
     src/lib/utils/math.cpp
     src/lib/utils/varint.cpp
+    src/lib/utils/vectors
+    src/lib/types/columns.cpp
     src/lib/dot-commands/dot-commands.cpp
     src/lib/dot-commands/dbinfo.cpp
     src/lib/dot-commands/tables.cpp
@@ -63,7 +66,8 @@ add_executable(
   src/lib/utils/bits.cpp
   src/lib/utils/math.cpp
   src/lib/utils/varint.cpp
-  src/lib/utils/varint.tests.cpp
+  src/lib/utils/vectors
+  src/lib/types/columns.cpp
 )
 
 target_include_directories(

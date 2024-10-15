@@ -1,10 +1,13 @@
 #include "dot-commands.hpp"
+#include "../types/columns.cpp"
 #include "../utils/numbers.cpp"
 #include "../utils/varint.cpp"
 #include "../records/record-header.hpp"
+#include "../records/record-cell.hpp"
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include <variant>
 
 
 void tables (std::ifstream& databaseFile) {
@@ -27,18 +30,13 @@ void tables (std::ifstream& databaseFile) {
 
     for (int i = 0; i < cellCount; i++) {
         u_int cellOffset = cellOffsets[i];
-
         RecordHeader recordHeader = RecordHeader(databaseFile, cellOffset);
-        std::cout << "cell size: " << recordHeader.cellSize << " ";
-        std::cout << "row id: " << recordHeader.rowId << " ";
-        std::cout << "header size: " << recordHeader.headerSize << std::endl;
+        RecordCell recordCell = RecordCell(recordHeader, databaseFile, cellOffset);
 
-        int col = 0;
-        for (RecordSerial column : recordHeader.columns) {
-            std::cout << "column: " << col << " type: " << column.type << " size: " << column.size << std::endl;
-            col++;
-        }
+        // table_name is column 3
+        std::cout << recordCell.columns[2]->toString() << " ";
     }
 
+    std::cout << std::endl;
     delete[] cellOffsets;
 };
