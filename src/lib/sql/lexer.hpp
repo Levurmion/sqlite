@@ -7,10 +7,10 @@
 class SQLLexer {
 
     private:
-        std::unordered_map<TokenType, std::regex> tokenMap;
+        std::unordered_map<SQLTokenType, std::regex> tokenMap;
 
     public:
-        SQLLexer(std::unordered_map<TokenType, std::regex> tokenMap);
+        SQLLexer(std::unordered_map<SQLTokenType, std::regex> tokenMap);
 
         std::vector<Token> tokenize(const std::string& commands);
 };

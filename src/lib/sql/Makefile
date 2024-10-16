@@ -1,6 +1,6 @@
 include ../../../common.mk
 
-bin/main: obj/lexer.o obj/main.o
+bin/main: obj/lexer.o obj/main.o obj/parser.o
 	$(CMD) $^ -o $@
 
 obj/main.o: main.cpp
@@ -8,3 +8,7 @@ obj/main.o: main.cpp
 
 obj/lexer.o: lexer.cpp
 	$(CMD) -c $^ -o $@
+
+obj/parser.o: parser.cpp
+	$(CMD) -c $^ -o $@
+

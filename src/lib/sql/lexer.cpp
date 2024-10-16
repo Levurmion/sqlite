@@ -4,7 +4,7 @@
 #include <regex>
 
 
-SQLLexer::SQLLexer(std::unordered_map<TokenType, std::regex> tokenMap): tokenMap(tokenMap) {};
+SQLLexer::SQLLexer(std::unordered_map<SQLTokenType, std::regex> tokenMap): tokenMap(tokenMap) {};
 
 
 std::vector<Token> SQLLexer::tokenize(const std::string& command) {
@@ -29,9 +29,9 @@ std::vector<Token> SQLLexer::tokenize(const std::string& command) {
             // if we find a matching token
             if (std::regex_search(start, end, match, pattern, std::regex_constants::match_continuous)) {
                 std::string value = match.str();
-                tokens.push_back({tokenType, value});
                 start += match.length();
                 matchFound = true;
+                tokens.push_back({tokenType, value});
                 break;
             }
         }
@@ -42,5 +42,17 @@ std::vector<Token> SQLLexer::tokenize(const std::string& command) {
         }
     };
 
-    return tokens;
+    std::vector<Token> processedTokens;
+    processedTokens.reserve(tokens.size());
+    for (auto token: tokens) {
+        if (token.type == SQLTokenType::Delimiter && token.value == ",") {
+            continue;
+        } else {
+            processedTokens.push_back(token);
+        }
+    }
+
+    processedTokens.push_back({SQLTokenType::Terminator, "$"});
+
+    return processedTokens;
 }
