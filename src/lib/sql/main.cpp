@@ -9,15 +9,21 @@
 
 int main () {
 
-    std::string command = "SELECT type, name, tbl_name FROM this_table;";
+    std::string command = "SELECT type, name, tabular, tbl_name FROM howdy;";
     SQLLexer lexer = SQLLexer(TOKENS);
     std::vector<Token> tokens = lexer.tokenize(command);
-    SQLStartExp sqlStartExp = SQLStartExp();
-    SQLParser parser = SQLParser(&sqlStartExp);
 
-    for (auto& token: tokens) {
-        std::cout << "Found token: " <<  token.value << std::endl;
+    for (auto token: tokens) {
+        std::cout << "Token: ";
+        std::cout << token.type << " ";
+        std::cout << token.value << std::endl;
     }
+
+    SQLNonTerminals::SQLStartExp startExpression = SQLNonTerminals::SQLStartExp();
+    SQLParser parser = SQLParser(&startExpression);
+
+    bool isSuccess = parser.parseTokenStream(tokens);
+    std::cout << "Parsing success: " << isSuccess << std::endl;
 
     return 0;
 }

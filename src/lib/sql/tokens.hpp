@@ -16,6 +16,21 @@ enum class SQLTokenType {
     Terminator,
 };
 
+// Overload operator<< for SQLTokenType
+inline std::ostream& operator<<(std::ostream& os, const SQLTokenType& tokenType) {
+    switch (tokenType) {
+        case SQLTokenType::Clause: return os << "Clause";
+        case SQLTokenType::Identifier: return os << "Identifier";
+        case SQLTokenType::Delimiter: return os << "Delimiter";
+        case SQLTokenType::AggregateFunction: return os << "AggregateFunction";
+        case SQLTokenType::Wildcard: return os << "Wildcard";
+        case SQLTokenType::Operator: return os << "Operator";
+        case SQLTokenType::Epsilon: return os << "Epsilon";
+        case SQLTokenType::Terminator: return os << "Terminator";
+        default: return os << "UnknownTokenType";
+    }
+}
+
 struct Token {
     SQLTokenType type;
     std::string value;
@@ -25,27 +40,13 @@ struct Token {
     }
 };
 
-namespace std {
-    /**
-     * The STL `std::hash` function is defined as a functor - a function object where the
-     * the call operator `()` is overriden as a pure function.
-     */
-    template <>
-    struct hash<Token> {
-        std::size_t operator()(const Token& token) const {
-            // Use the hash functions for built-in types and combine them
-            return std::hash<SQLTokenType>()(token.type) ^ (std::hash<std::string>()(token.value) << 1);
-        }
-    };
-};
-
-const std::unordered_map<SQLTokenType, std::regex> TOKENS = {
+const std::vector<std::tuple<SQLTokenType, std::regex>> TOKENS = {
     {SQLTokenType::Clause, std::regex(R"(\bSELECT|FROM|WHERE|CREATE|INSERT|UPDATE|DELETE|JOIN|AND|OR|AS\b)", std::regex_constants::icase)},
     {SQLTokenType::AggregateFunction, std::regex(R"(\bCOUNT|SUM|AVG|MIN|MAX\b)", std::regex_constants::icase)},
-    {SQLTokenType::Identifier, std::regex(R"([A-Za-z_][A-Za-z0-9_]*)")},
     {SQLTokenType::Delimiter, std::regex(R"([\(\),;.])")},
     {SQLTokenType::Wildcard, std::regex(R"(\*)")},
     {SQLTokenType::Operator, std::regex(R"(=|!=|<=|>=|<|>)")},
+    {SQLTokenType::Identifier, std::regex(R"([A-Za-z_][A-Za-z0-9_]*)")},
 };
 
 
@@ -95,6 +96,8 @@ namespace SQLTokens {
     const Token LT = Token{SQLTokenType::Operator, "<"};
     const Token GT = Token{SQLTokenType::Operator, ">"};
 
+    // -- TERMINAL
+    const Token Terminator = Token{SQLTokenType::Terminator, "$"};
 }
 
 #endif

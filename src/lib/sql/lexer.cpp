@@ -4,7 +4,7 @@
 #include <regex>
 
 
-SQLLexer::SQLLexer(std::unordered_map<SQLTokenType, std::regex> tokenMap): tokenMap(tokenMap) {};
+SQLLexer::SQLLexer(std::vector<std::tuple<SQLTokenType, std::regex>> tokenList): tokenList(tokenList) {};
 
 
 std::vector<Token> SQLLexer::tokenize(const std::string& command) {
@@ -21,9 +21,9 @@ std::vector<Token> SQLLexer::tokenize(const std::string& command) {
 
         bool matchFound = false;
 
-        // iterate over our tokenMap to try and match the string starting at `start`
+        // iterate over our tokenList to try and match the string starting at `start`
         // with a valid token pattern
-        for (auto& [tokenType, pattern]: tokenMap) {
+        for (auto& [tokenType, pattern]: tokenList) {
             std::smatch match;
 
             // if we find a matching token
