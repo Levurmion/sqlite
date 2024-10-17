@@ -4,29 +4,46 @@
 #include "parser.hpp"
 #include "tokens.hpp"
 
-typedef Terminal<SQLTokenType> SQLTerminal;
 
-// CLAUSES
-struct SELECT: SQLTerminal {
-    SELECT(): SQLTerminal(SQLTokenType::Clause, "SELECT") {};
-};
-struct FROM: SQLTerminal {
-    FROM(): SQLTerminal(SQLTokenType::Clause, "FROM") {};
-};
+struct SQLTerminal: Terminal<SQLTokenType> {
+    explicit SQLTerminal(SQLTokenType type, std::string value): Terminal(type, value) {};
+    explicit SQLTerminal(const Token& token): Terminal(token.type, token.value) {};
+    SQLTerminal(const SQLTerminal& other): Terminal(other.type, other.value) {};
 
-// DELIMITERS
-struct Semicolon: SQLTerminal {
-    Semicolon(): SQLTerminal(SQLTokenType::Delimiter, ";") {};
-};
+    /**
+     * Return pointer to a copy of the current `SQLTerminal` instance.
+     */
+    SQLTerminal* copy () const {
+        return new SQLTerminal(this->type, this->value);
+    }
 
-// WILDCARD
-struct Wildcard: SQLTerminal {
-    Wildcard(): SQLTerminal(SQLTokenType::Wildcard, "*") {};
+    bool operator==(const SQLTerminal& other) const {
+        return other.type == this->type && other.value == this->value;
+    }
 };
 
-// IDENTIFIER
-struct Identifier: SQLTerminal {
-    Identifier(std::string value): SQLTerminal(SQLTokenType::Identifier, value) {};
-};
+
+namespace SQLTerminals {
+
+    // -- CLAUSES
+
+    const SQLTerminal SELECT = SQLTerminal(SQLTokens::SELECT);
+    const SQLTerminal FROM = SQLTerminal(SQLTokens::FROM);
+
+    // -- DELIMITERS
+
+    const SQLTerminal Semicolon = SQLTerminal(SQLTokens::Semicolon);
+    const SQLTerminal Comma = SQLTerminal(SQLTokens::Comma);
+
+    // -- WILDCARD
+
+    const SQLTerminal Wildcard = SQLTerminal(SQLTokens::Wildcard);
+
+    // -- Identifier
+    const SQLTerminal Identifier = SQLTerminal(SQLTokenType::Identifier, "");
+
+    // -- Epsilon
+    const SQLTerminal Epsilon = SQLTerminal(SQLTokenType::Epsilon, "");
+}
 
 #endif

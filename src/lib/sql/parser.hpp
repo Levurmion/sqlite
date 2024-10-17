@@ -12,33 +12,40 @@ struct Symbol {
 };
 
 template<typename T>
-struct Terminal: Symbol {
+struct Terminal: public Symbol {
     T type;
-    explicit Terminal(T type, std::string value): type(type), Symbol(value) {};
+    explicit Terminal(T type, std::string value): Symbol(value), type(type) {};
     explicit Terminal(T type): type(type), Symbol("") {};
 };
 
 
-struct NonTerminal: Symbol {
-    std::vector<Symbol*> children;
-    explicit NonTerminal(std::string value): Symbol(value) {};
-
-    /**
-     * Subclasses must implement the production rules of this `NonTerminal` symbol.
-     */
-    virtual std::vector<Symbol*> productionRule (const Token& token) const;
-};
-
-
-struct Epsilon: Symbol {
-    explicit Epsilon(): Symbol("") {};
-};
-
-
-class LL1SQLParser {
+// An LL(1) parser for SQL statements.
+class SQLParser {
     private:
-        std::vector<Symbol*> symbolStack;
+        int tokenPtr = 0;
+        std::vector<Token> tokenStream;
+        std::vector<Symbol*> pushdownStack;
 
+        /**
+         * Returns the current token pointed to by `this->tokenPtr`.
+         */
+        Token currentToken() const;
+
+        /**
+         * Get the `Symbol` on top of the `pushdownStack`.
+         */
+        Symbol* getTopSymbol () const;
+
+        /**
+         * Attempts to match a `Token` with an `SQLTerminal`. 
+         */
+        void matchToken(Token& token);
+    
+    public:
+        Symbol* parseTree;
+
+        explicit SQLParser (Symbol* startExpression);
+        void parseTokenStream(const std::vector<Token>& tokenStream);
 };
 
 
