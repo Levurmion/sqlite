@@ -1,5 +1,5 @@
 #include "parser.hpp"
-#include "terminals.hpp"
+#include "terminals.cpp"
 
 struct NonTerminal: public Symbol {
     std::vector<Symbol*> children;
@@ -9,7 +9,7 @@ struct NonTerminal: public Symbol {
     /**
      * Subclasses must implement the production rules of this `NonTerminal` symbol.
      */
-    virtual std::vector<Symbol*> productionRule (const Token& token) const;
+    virtual std::vector<Symbol*> productionRule (const Token& token) const = 0;
 };
 
 // COLUMN EXPRESSIONS

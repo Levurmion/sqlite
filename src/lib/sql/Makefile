@@ -2,7 +2,7 @@ include ../../../common.mk
 
 .PHONY: clean
 
-bin/main: obj/lexer.o obj/main.o obj/parser.o obj/non-terminals.o
+bin/main: obj/lexer.o obj/main.o obj/parser.o
 	$(CMD) $^ -o $@
 
 obj/main.o: main.cpp
@@ -14,8 +14,5 @@ obj/lexer.o: lexer.cpp
 obj/parser.o: parser.cpp
 	$(CMD) -c $^ -o $@
 
-obj/non-terminals.o: non-terminals.cpp
-	$(CMD) -c $^ -o $@
-
 clean:
-	rm -rf *.o
+	rm -rf obj/*.o

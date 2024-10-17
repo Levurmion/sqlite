@@ -2,7 +2,7 @@
 #include "tokens.hpp"
 #include "parser.hpp"
 #include "non-terminals.cpp"
-#include "terminals.hpp"
+#include "terminals.cpp"
 #include <iostream>
 #include <string>
 

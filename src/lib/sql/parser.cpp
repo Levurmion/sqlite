@@ -1,6 +1,6 @@
 #include "parser.hpp"
 #include "tokens.hpp"
-#include "terminals.hpp"
+#include "terminals.cpp"
 #include <iostream>
 #include <string>
 

@@ -4,6 +4,13 @@
 #include "parser.hpp"
 #include "tokens.hpp"
 
+template<typename T>
+struct Terminal: public Symbol {
+    T type;
+    explicit Terminal(T type, std::string value): Symbol(value), type(type) {};
+    explicit Terminal(T type): type(type), Symbol("") {};
+};
+
 
 struct SQLTerminal: Terminal<SQLTokenType> {
     explicit SQLTerminal(SQLTokenType type, std::string value): Terminal(type, value) {};

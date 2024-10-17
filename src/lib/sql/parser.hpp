@@ -11,14 +11,6 @@ struct Symbol {
     virtual ~Symbol() = default;
 };
 
-template<typename T>
-struct Terminal: public Symbol {
-    T type;
-    explicit Terminal(T type, std::string value): Symbol(value), type(type) {};
-    explicit Terminal(T type): type(type), Symbol("") {};
-};
-
-
 // An LL(1) parser for SQL statements.
 class SQLParser {
     private:
